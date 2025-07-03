@@ -1,7 +1,7 @@
-// write a program in c o delete an element from end of a singly linked list
+// // write a program in c o delete an element from a given position by user of a singly linked list
 
-#include <stdio.h>
-#include <stdlib.h>
+#include<stdio.h>
+#include<stdlib.h>
 
 int main() {
     struct node {
@@ -9,9 +9,10 @@ int main() {
         struct node *next;
     };
 
-    struct node *head = NULL, *newnode, *temp, *prev;
-    int choice = 1;
+    struct node *head = NULL, *newnode, *temp, *prev, *nextnode;
+    int choice = 1, pos, i;
 
+    // Creating LL
     while (choice) {
         newnode = (struct node*)malloc(sizeof(struct node));
         if (newnode == NULL) {
@@ -37,20 +38,39 @@ int main() {
 
     if (head == NULL) {
         printf("List is empty\n");
-    } else {
-        temp = head;
-        prev = NULL;
-        while (temp->next != NULL) {
-            prev = temp;
-            temp = temp->next;
-        }
-        if (temp == head) {
-            head = NULL;
-        } else {
-            prev->next = NULL;
-        }
+        return 0;
+    }
+
+    printf("Enter position to delete: ");
+    scanf("%d", &pos);
+
+    if (pos <= 0) {
+        printf("Invalid position.\n");
+        return 0;
+    }
+
+    temp = head;
+
+    // Deleting f node
+    if (pos == 1) {
+        head = head->next;
         printf("Deleted element: %d\n", temp->data);
         free(temp);
+    } else {
+        i = 1;
+        while (i < pos - 1 && temp != NULL) {
+            temp = temp->next;
+            i++;
+        }
+
+        if (temp == NULL || temp->next == NULL) {
+            printf("Position out of range.\n");
+        } else {
+            nextnode = temp->next;
+            temp->next = nextnode->next;
+            printf("Deleted element: %d\n", nextnode->data);
+            free(nextnode);
+        }
     }
 
     printf("List after deletion: ");

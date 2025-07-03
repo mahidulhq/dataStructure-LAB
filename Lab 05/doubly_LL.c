@@ -1,57 +1,50 @@
-// write a program in c o delete an element from beginning of a singly linked list
+// write a program in c to create a doubly linked list and print all the elements after creation
 
-#include<stdio.h>
-#include<stdlib.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 int main() {
     struct node {
         int data;
+        struct node *prev;
         struct node *next;
     };
 
     struct node *head = NULL, *newnode, *temp;
     int choice = 1;
 
-    // Creating LL
     while (choice) {
         newnode = (struct node*)malloc(sizeof(struct node));
-        if (newnode == NULL) {
+        if (!newnode) {
             printf("Memory allocation failed.\n");
             return 1;
         }
+
         printf("Enter data: ");
         scanf("%d", &newnode->data);
+
+        newnode->prev = NULL;
         newnode->next = NULL;
 
         if (head == NULL) {
             head = temp = newnode;
         } else {
             temp->next = newnode;
+            newnode->prev = temp;
             temp = newnode;
         }
 
-        printf("Do you want to continue? Press 1 for Yes, 0 for No: ");
+        printf("Add another? (1 = yes, 0 = no): ");
         scanf("%d", &choice);
     }
 
-    // Delete first
-    if (head == NULL) {
-        printf("List is empty\n");
-    } else {
-        temp = head;
-        head = head->next;
-        printf("Deleted element: %d\n", temp->data);
-        free(temp);
-    }
-
-    // Display
-    printf("List after deletion: ");
+    printf("Doubly linked list elements: ");
     temp = head;
     while (temp != NULL) {
-        printf("%d -> ", temp->data);
+        printf("%d ", temp->data);
         temp = temp->next;
     }
-    printf("NULL\n");
+    printf("\n");
 
     return 0;
 }
